@@ -1,0 +1,48 @@
+Public Sub importToExcel()
+    Dim vFileName As String
+    Dim products As Object
+    Dim Product, Content
+    Dim i As Integer
+    
+    Set itemJSON = Application.FileDialog(msoFileDialogFilePicker)
+        With itemJSON
+        
+        .AllowMultiSelect = False
+        .InitialView = msoFileDialogViewDetails
+        
+        End With
+        
+    If itemJSON.Show = -1 Then
+        lArquivo = itemJSON.SelectedItems(1)
+        Cells(5, 5).Value = lArquivo
+    Else
+        MsgBox "Não foi selecionado nenhum arquivo"
+    End If
+    
+    vFileName = lArquivo
+    
+    Open vFileName For Input As #1
+    
+    Content = Input(LOF(1), 1)
+    
+    Set products = ParseJson(Content)
+    
+    i = 2
+    
+    For Each Product In products
+        
+        Cells(i, 1) = Product("CONT")
+        Cells(i, 2) = Product("REMESSA")
+        Cells(i, 3) = Product("DOCA")
+        Cells(i, 4) = Product("PALETE")("Value")
+        Cells(i, 5) = Product("ITEM")
+        Cells(i, 6) = Product("QUANTIDADE")
+        Cells(i, 7) = Product("DATA")
+
+            i = i + 1
+
+    Next
+
+    Close #1
+
+End Sub
