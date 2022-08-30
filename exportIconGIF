@@ -1,0 +1,14 @@
+Sub ExportaImagens()
+
+Dim caminho as String
+Dim n As Integer
+
+For n = 1 To ActivePresentation.Slides.Count
+
+  caminho = Application.ActivePresentation.Path & "\" & n & ".gif"
+  
+  Application.ActivePresentation.Slides(n).Export caminho, ".gif", 46, 46
+  
+Next n
+  
+End Sub
